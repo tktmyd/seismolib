@@ -1,6 +1,12 @@
 
+
+from .geo   import *
+from .utils import *
+
 __all__ = []
 
-from .geo import *
-__all__ = [epdist, deg2km, km2deg, polygon, mercator_aspect]
-
+for module in utils, geo:
+    for func in dir(module):
+        if callable(getattr(module, func)):
+            if func[0:1] != '_':
+                __all__.append(func)
