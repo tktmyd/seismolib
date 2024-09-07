@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "example_package_tkt"
+name = "seismolib"
 version = "24.0.1"
 authors = [
     { name = "Takuto Maeda", email = "tktmyd@hirosaki-u.ac.jp" },
