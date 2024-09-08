@@ -20,22 +20,6 @@ seismolib.gk module
    :undoc-members:
    :show-inheritance:
 
-seismolib.movie module
-----------------------
-
-.. automodule:: seismolib.movie
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-seismolib.plot module
----------------------
-
-.. automodule:: seismolib.plot
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 seismolib.signal module
 -----------------------
 
@@ -67,6 +51,32 @@ seismolib.vmodels module
    :members:
    :undoc-members:
    :show-inheritance:
+
+seismolib.traveltime module
+------------------------
+
+.. automodule:: seismolib.traveltime
+   :members:
+   :undoc-members:
+   :show-inheritance:   
+
+seismolib.plot module
+---------------------
+
+.. automodule:: seismolib.plot
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+seismolib.movie module
+----------------------
+
+.. automodule:: seismolib.movie
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 
 Module contents
 ---------------
