@@ -1052,3 +1052,62 @@ def _plot_spectrogram(t, f, p, u, frange=None, trange=None,
              justify='LB')
     
     return fig
+
+
+def plot_mech(strike, dip, rake, azimuth=None, takeoff=None, polarization=None,
+              compressionfill='250/50/150@50', polarizationfill='red'):
+
+    """
+    Plot focal mechanism with azimuth, takeoff and polarization
+
+    Parameters
+    ----------
+    strike, dip, rake: floats
+        Strike, dip and rake angles of the focal mechanism
+    azimuth, takeoff, polarization: list of floats (optional)
+        Azimuth, takeoff and polarization angles of the radiation pattern
+        if these lists are not provided, only the focal mechanism is plotted.
+    compressionfill: str
+        Fill color for the compression quadrants
+    polarizationfill: str
+        Fill color for the observation points with compressional polarity
+    
+    """
+
+    fig = pygmt.Figure()
+
+    fig.meca(spec={"strike":strike, "dip": dip, "rake": rake, "magnitude": 5},
+                scale='10c', 
+                longitude=0, latitude=0, 
+                projection ='X11c/11c', region=[-1.1, 1.1, -1.1, 1.1], 
+                compressionfill=compressionfill, 
+                outline='thin,black')
+
+    if azimuth is None or takeoff is None or polarization is None: 
+        return fig
+
+    if len(azimuth) != len(takeoff) or len(azimuth) != len(polarization): 
+        return fig
+
+    for a, t, p in zip(azimuth, takeoff, polarization):
+
+        if t >= 90: 
+            a += 180
+            t = 180 - t
+
+        aa = np.deg2rad(a)
+        rr = np.sqrt(2) * np.sin(np.deg2rad(t)/2) # 等積投影公式
+
+        xx = rr * np.sin(aa)
+        yy = rr * np.cos(aa)
+
+        if p > 0: 
+            col = polarizationfill
+        else:
+            col = 'white'
+ 
+        fig.plot(projection ='X11c/11c', region=[-1.1, 1.1, -1.1, 1.1], 
+                 x = xx, y = yy, style = 'c0.2c', fill=col, pen='faint,black')
+
+
+    return fig
