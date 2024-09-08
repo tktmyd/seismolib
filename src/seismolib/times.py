@@ -3,14 +3,10 @@ import numpy as np
 
 def time_range(start, stop, step=dt.timedelta(days=1)):
 
-    """datetime.date オブジェクトの start, stop の間を step 間隔で返すジェネレータ
-
+    """
+    datetime.date オブジェクトの start, stop の間を step 間隔で返すジェネレータ
     yieldされるのは常にdatetime
 
-    Example
-    -------
-    for date in date_range(start, stop, step):
-        pass
 
     Parameters
     ----------
@@ -21,12 +17,12 @@ def time_range(start, stop, step=dt.timedelta(days=1)):
     step : datetime.timdedelta
         step between start and stop
 
-    Yield
-    -----
+    Yields
+    ------
     datetime.datetime
 
-    Test
-    ----
+    Examples
+    --------
     >>> for tim in time_range(datetime.date(2020, 10, 5), datetime.date(2020, 10, 7)):
     ...     print(tim)
     2020-10-05 00:00:00
@@ -53,7 +49,8 @@ def time_range(start, stop, step=dt.timedelta(days=1)):
 
 def date2jul(date):
 
-    """Returns julian day (day of the year).
+    """
+    Returns julian day (day of the year).
 
     Parameters
     -----------
@@ -65,8 +62,8 @@ def date2jul(date):
     julday: integer
         Julian day of the year
 
-    Example
-    -------
+    Examples
+    --------
     >>> date2jul(datetime.date(2015, 12, 31))
     365
     """
@@ -76,7 +73,8 @@ def date2jul(date):
 
 def jul2date(year, julday):
 
-    """Calculate datetime from year and julian day
+    """
+    Calculate datetime from year and julian day
 
     Parameters
     ----------
@@ -86,7 +84,8 @@ def jul2date(year, julday):
     ------
     datetime.datetime
 
-    Example
+    Examples
+    --------
     >>> jul2date(2000, 366)
     datetime.datetime(2000, 12, 31, 0, 0, 0)
     """
@@ -96,14 +95,26 @@ def jul2date(year, julday):
 
 def is_leapyear(yr):
 
-    """True if the input yr is a leap year"""
+    """
+    True if the input yr is a leap year
+
+    Parameters
+    ----------
+    yr: int
+
+    Returns
+    -------
+    bool
+
+    """
 
     return yr % 4 == 0 and yr % 100 != 0 or yr % 400 == 0
 
 
 def timegm(tim):
 
-    """Returns seconds from 1970-01-01 00:00:00 (UTC)
+    """
+    Returns seconds from 1970-01-01 00:00:00 (UTC)
 
     Parameters
     ----------
@@ -111,7 +122,7 @@ def timegm(tim):
         time to be converted
 
     Returns:
-    float
+    tim: float
         time in seconds
     """
 
@@ -123,23 +134,25 @@ def timegm(tim):
 
 def gmtime(t):
 
-    """Inverse of timegm
+    """
+    Inverse of timegm
 
     Parameters
     ----------
     t: float or int
         seconds from 1970-01-01 00:00:00 (UTC)
 
-    Returns:
-    float
-        time in seconds
+    Returns
+    -------
+    date: datetime.datetime
     """
     return dt.datetime.fromtimestamp(t)
 
 
 def date_time(year, month, day, hour, minute, second):
 
-    """日時情報からdatetime.datetimeオブジェクトを返す．secondが実数でもOK
+    """
+    日時情報からdatetime.datetimeオブジェクトを返す．secondが実数でもOK
 
     Parameters
     ----------
@@ -155,8 +168,8 @@ def date_time(year, month, day, hour, minute, second):
     -------
     result: datetime.datetime object
 
-    Test
-    ----
+    Examples
+    -------
     >>> date_time(2021, 10, 1, 0, 0, 0.5)
     datetime.datetime(2021, 10, 1, 0, 0, 0, 500000)
 
@@ -174,15 +187,37 @@ def date_time(year, month, day, hour, minute, second):
 
 def date(year, month, day):
 
+    """
+    日付のみの情報からdatetime.dateオブジェクトを返す．
+    
+    Parameters
+    ----------
+    year   : int or str
+    month  : int or str
+    day    : int or str
+
+    Returns
+    -------
+    result: datetime.date object
+    """
     return date_time(year, month, day, 0, 0, 0)
 
 
 def to_datetime(datetime64):
 
-    """convert datetime64 of numpy to datetime.datetime
+    """
+    convert numpy.datetime64 to datetime.datetime
 
-    Reference
-    ---------
+    Parameters
+    ----------
+    datetime64: numpy.datetime64
+
+    Returns
+    -------
+    datetime.datetime
+
+    Note
+    ----
     https://gist.github.com/blaylockbk/1677b446bc741ee2db3e943ab7e4cabd
     """
 

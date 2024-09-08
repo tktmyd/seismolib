@@ -2,7 +2,8 @@ import numpy as np
 
 def epdist(event_lon, event_lat, station_lon, station_lat, is_elliptic=False):
 
-    """2組の緯度経度から震央距離・Azimuth・Back Azimuthの計算を行う
+    """
+    2組の緯度経度から震央距離・Azimuth・Back Azimuthの計算を行う
 
     定式化は地震の辞典第2版 p.52に基づく．方位角は北から時計回りに測る．
     基本的には球面三角法だが，距離が近いときにベッセル楕円体の地心半径を
@@ -14,20 +15,19 @@ def epdist(event_lon, event_lat, station_lon, station_lat, is_elliptic=False):
         震源の緯度経度 (degrees)
     station_lon, station_lat : float
         観測点緯度経度（degrees）
-
+                
     Return
     ------
-    tuple: (dist, azimuth, back_azimuth)
-        震央距離 (km)・Azimuth (degree)・Back Azimuth (degree)
-
-    Test
-    ----
+    tuple
+        (dist (km), azimuth (degree), back_azimuth (degree))
+        
+    Examples
+    --------
     >>> epdist(135, 35, 136, 36)
     (143.38265213187395, 38.860270806043971, 219.4410056442396)
 
     >>> epdist(135, 35, 136, 36, True)
     (143.30662405398323, 38.986394043530979, 219.5645515565227)
-    
     """
 
     R_EARTH = 6371.0   # 平均地球半径(km)
@@ -117,24 +117,28 @@ def polygon(x, y, px, py):
     """
     Return if (x,y) is inside a polygon having vertices at (px(:), py(:))
 
-    Parameters: 
+    
+    Parameters
+    ----------
     x, y : float
         Location to be investigated
     px, py : Array-like
         Polygon vertices
+
 
     Returns
     -------
     bool
         True if (x,y) is inside the polygon
 
-    Examples:
+
+    Examples
+    --------
     >>> polygon(0.5, 0.5, [0, 1, 1, 0], [0, 0, 1, 1])
     True
 
     >>> polygon(1.5, 1.5, [0, 1, 1, 0], [0, 0, 1, 1])
     False
-
     """
 
     n = len(px)

@@ -2,7 +2,19 @@ import numpy as np
 import scipy.interpolate
 
 def brocher_density(vp):
-    """Vrocher (2005)'s empirical relationship between vp and density """
+    """
+    Brocher (2005)'s empirical relationship between vp and density
+    
+    Parameters
+    ----------
+    vp : float
+        P-wave velocity in km/s
+    
+    Returns
+    -------
+    rho : float
+        density in g/cm^3
+    """
 
     rho = 1.6612*vp - 0.4721 * vp**2 + 0.0671*vp**3 - 0.0043*vp**4 + 0.000106*vp**5
 
@@ -10,7 +22,19 @@ def brocher_density(vp):
 
 def vmodel_hinet(z):
 
-    """Hi-net速度構造"""
+    """
+    Hi-net速度構造
+    
+    Parameters
+    ----------
+    z : float
+        depth in km
+    
+    Returns
+    -------
+    vp, vs : floats
+        wavespeeds of P and S waves
+    """
 
     R0 = 6369.5 # Earth's Radius
     R1 = 6337.5 # Moho's Radius
@@ -36,7 +60,19 @@ def vmodel_hinet(z):
 
 def vmodel_tohoku(z):
 
-    """東北大ルーチン速度構造"""
+    """
+    東北大ルーチン速度構造
+    
+    Parameters
+    ----------
+    z : float
+        depth in km
+    
+    Returns
+    -------
+    vp, vs : floats
+        wavespeeds of P and S waves
+    """
 
     R0 = 6369.5 # Earth's Radius
     R1 = 6338.5 # Moho's Radius
@@ -62,7 +98,8 @@ def vmodel_tohoku(z):
 
 def vmodel_iasp91(z):
 
-    """iasp91 velcity model
+    """
+    iasp91 velcity model
     
     Parameters
     ----------
@@ -74,10 +111,9 @@ def vmodel_iasp91(z):
     vp, vs: floats
         wavespeeds in km/s
 
-    Reference
-    ----------
+    Notes
+    -----
     Kennet and Engdahl (1991) GJI 105, 429-465, https://doi.org/10.1111/j.1365-246X.1991.tb06724.x
-    
     """
 
     x = (6371. - z) / 6371.
@@ -127,7 +163,8 @@ def vmodel_iasp91(z):
 
 def vmodel_prem(z):
  
-    """ Return the modified PREM 1D velocity structure
+    """
+    Return the modified PREM 1D velocity structure
      
     Compared to the original model of the Diewonski and Anderson (1981), 
     the seawater layer is substituted to a crustal structure if type='modified' is given:
@@ -241,6 +278,21 @@ def vmodel_prem(z):
 
 
 def vmodel_jma(z, model = '2001'):
+    """
+    JMA2001 velocity model
+
+    Parameters
+    ----------
+    z : float
+        depth in km
+    model : str
+        velocity model version ('2001', '2020a', '2020b', '2020c')
+    
+    Returns
+    -------
+    vp, vs : floats
+        wavespeeds of P and S waves in km/s
+    """
 
     if model == '2020a':
         vp = float(_f_vp_jma_2020a(z))
@@ -259,11 +311,29 @@ def vmodel_jma(z, model = '2001'):
 
 def vmodel_ak135(z):
 
-    vp = float(_f_vp_ak135(z))
-    vs = float(_f_vs_ak135(z))
+    """
+    AK135 velocity model
+
+    Parameters
+    ----------
+    z : float
+        depth in km
+    
+    Returns
+    -------
+    vp, vs : floats
+        wavespeeds of P and S waves in km/s
+    rho : float
+        density in g/cm^3
+    qp, qs: float
+        Quality factors of P and S waves
+    """
+
+    vp  = float(_f_vp_ak135(z))
+    vs  = float(_f_vs_ak135(z))
     rho = float(_f_rho_ak135(z))
-    qk = float(_f_qk_ak135(z))
-    qm = float(_f_qm_ak135(z))
+    qk  = float(_f_qk_ak135(z))
+    qm  = float(_f_qm_ak135(z))
     qp, qs = _qkqm_to_qpqs(qk ,qm, vp, vs)
 
     return vp, vs, rho, qp, qs
@@ -2585,9 +2655,7 @@ _f_vp_jma_2020c = scipy.interpolate.interp1d(_dep_jma_2020c, _vp_jma_2020c, kind
 _f_vs_jma_2020c = scipy.interpolate.interp1d(_dep_jma_2020c, _vs_jma_2020c, kind='linear')
 
 
-###
 ### AK135
-###
 _vp_ak135 = np.array([
       1.4500,   1.4500,   1.6500,   1.6500,   5.8000,   5.8000,   6.8000,   6.8000,   8.0355,   8.0379, 
       8.0400,   8.0450,   8.0505,   8.0505,   8.1750,   8.3007,   8.3007,   8.4822,   8.6650,   8.8476, 

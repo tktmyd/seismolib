@@ -1,5 +1,22 @@
 def gif_movie(figs, dpi=720, crop='0.5c'): 
     
+    """
+    PyGMTのFigureオブジェクトのリストからGifアニメーションを作成する．Jupyter Notebook上で表示されるオブジェクトを返す．
+
+    Parameters
+    ----------
+    figs : list of Figure
+        PyGMTのFigureオブジェクトのリスト
+    dpi : int, optional
+        解像度 (default: 720)
+    crop : str, optional
+        余白のトリミング量 (default: '0.5c')
+
+    Returns
+    -------
+    HTML : IPython.display.HTML
+        Gifアニメーション
+    """
     from IPython import display as dd
     import tempfile
     import base64

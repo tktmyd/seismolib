@@ -16,7 +16,7 @@ def ll2xy(lon, lat, clon, clat):
     clon, clat: float
         longitude and latitude of reference point (deg.)
 
-    Returnsg
+    Returns
     -------
     x, y : float
         Northing/Easting coordinate (km) measured from (clon, clat)
@@ -57,6 +57,7 @@ def xy2ll(x, y, clon, clat):
     """ Convert x & y (km) to x, y (km). Inverse of ll2xy
 
     Parameters
+    ----------
     x, y : float
         Northing & easting coordinate location measured from reference (km)
     clon, clat : float

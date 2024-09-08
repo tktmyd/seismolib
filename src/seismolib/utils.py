@@ -1,7 +1,9 @@
 import numpy as np
 
 def dms2deg(d, m, s):
-    """60進法の degree(d):minute(m):second を 10進法のdegreeに変換する
+
+    """
+    60進法の degree(d):minute(m):second を 10進法のdegreeに変換する
 
     Parameters
     ----------
@@ -25,7 +27,8 @@ def dms2deg(d, m, s):
 
 def deg2dms(deg): 
 
-    """ 10進法のdegree を60進法の degree(d):minute(m):second に変換する
+    """
+    10進法のdegree を60進法の degree(d):minute(m):second に変換する
     
     Paremters
     ---------
@@ -34,11 +37,9 @@ def deg2dms(deg):
 
     Returns
     -------
-    (d, m, s) : tuple of numbers, 
+    (d, m, s) : tuple of numbers
         where d, m, s means degree, minute, and second
         d and m should be integer, while s is float. 
-     
-    
     """
 
     dd = abs(deg)
@@ -52,7 +53,8 @@ def deg2dms(deg):
 
 def i2s(i, w=-1):
 
-    """integer to string
+    """
+    integer to string
 
     整数値 i を桁数 w の文字列にする．桁数がwに満たない場合は左にゼロを埋める．
     桁数が指定されていない場合は必要な最小限の長さの文字列になる．
@@ -70,8 +72,8 @@ def i2s(i, w=-1):
     result: str
         string representing integer i
 
-    Test/Example
-    ------------
+    Examples
+    --------
     >>> i2s(3, 5)
     '00003'
     
@@ -99,7 +101,8 @@ def i2s(i, w=-1):
 
 def chk_value(var, err):
 
-    """伝統的なエラー判定「未定義の場合に -12345.0 を取る」のような条件を判断する．
+    """
+    伝統的なエラー判定「未定義の場合に -12345.0 を取る」のような条件を判断する．
 
     未定義定数 err に値が十分近い場合には Noneを，そうでない場合には varを返す．
     整数・実数・複素数・文字列に対応．
@@ -116,8 +119,8 @@ def chk_value(var, err):
     result : same type with var
         var or None
 
-    Test
-    ----
+    Examples
+    --------
     >>> chk_value(3.0, 3.0)
 
 
@@ -150,11 +153,13 @@ def split_list(l, n):
     """
     split list into lists whose length of n
 
-    Example
-    -------
-    for li in split_list(glob.glob(*),10):
-        for f in li:
-            print(f)
+    Examples
+    --------
+    
+    >>> for li in split_list(glob.glob(*),10):
+    >>>     for f in li:
+    >>>         print(f)
+    
     """
     for idx in range(0, len(l), n):
         yield l[idx:idx + n]

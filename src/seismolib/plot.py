@@ -19,7 +19,21 @@ def _opt2str(opt):
 
 
 def get_color(col, transp=None):
-    """GMTの色を返す"""
+    """
+    PyGMTのフォーマットで色を返す
+    
+    Parameters
+    ----------
+    col : str or list or tuple or int or float
+        色を表す文字列，もしくはRGBのリスト，もしくは整数（色番号）
+    transp : int or float
+        透明度（0-100）
+
+    Returns
+    -------
+    str
+        PyGMTの色表現    
+    """
     if isinstance(col, (int, float)):
         c = _color[int(col) % len(_color)]
     elif isinstance(col, (list, tuple)):
@@ -35,6 +49,23 @@ def get_color(col, transp=None):
 
 def hsv2rgb(h, s=1, v=1):
 
+    """
+    HSV to RGB conversion
+    
+    Parameters
+    ----------
+    h : float
+        Hue (0-360)
+    s : float
+        Saturation (0-1)
+    v : float
+        Value (0-1)
+    
+    Returns
+    -------
+    str
+        RGB color in PyGMT format
+    """
     rgb = colorsys.hsv_to_rgb(h, s, v)
     r = rgb[0] * 255
     g = rgb[1] * 255
@@ -44,7 +75,20 @@ def hsv2rgb(h, s=1, v=1):
 
 
 def get_pen(width, col, transp=None, dash=None):
-    """GMTのペンを返す"""
+    """
+    Return pen type in PyGMT format
+
+    Parameters
+    ----------
+    width : float or str
+        Pen width
+    col : str or list or tuple or int or float
+        Pen color
+    transp : int or float
+        Transparency (0-100; Default: None)
+    dash : str
+        Dash style (Default: None)
+    """
 
     if isinstance(width, (int, float)):
         width = str(width) + "p"
@@ -58,7 +102,20 @@ def get_pen(width, col, transp=None, dash=None):
 
 
 def get_font(fontsize, font, col="Black", transp=None):
-    """GMTのフォントを返す"""
+    """
+    Return font specification in PyGMT format
+
+    Parameters
+    ----------
+    fontsize : int or str
+        Font size   
+    font : str
+        Font
+    col : str or list or tuple or int or float
+        Font color
+    transp : int or float
+
+    """
 
     if isinstance(fontsize, int):
         fontsize = str(fontsize) + "p"
@@ -71,8 +128,18 @@ def get_font(fontsize, font, col="Black", transp=None):
 def pygmt_config(out=False):
     """
     標準的なGMT設定．
+
+    Parameters
+    ----------
+    out : bool
+        Trueの場合は，設定文字列を返す．デフォルトは False
+
+    Example
+    -------
+
     with pygmt_config():
         fig.XXX()
+        
     のように with 句と使う．
     """
 
@@ -109,11 +176,22 @@ def pygmt_config(out=False):
 
 def pygmt_config_S():
     """
-    標準的なGMT設定．For small figure
-    with my_pygmt_config():
+    標準的なGMT設定．(Small igure version)
+
+    Parameters
+    ----------
+    out : bool
+        Trueの場合は，設定文字列を返す．デフォルトは False
+
+    Example
+    -------
+
+    with pygmt_config():
         fig.XXX()
+        
     のように with 句と使う．
     """
+
     return pygmt.config(
         FONT_ANNOT_PRIMARY="8p,Helvetica,black",
         FONT_ANNOT_SECONDARY="6p,Helvetica,black",
@@ -139,7 +217,8 @@ def plot(x,
          title=None,
          show_script=False):
 
-    """Easy plot by using pyGMT
+    """
+    Easy plot by using pyGMT
 
     Parameters
     ----------
@@ -158,6 +237,9 @@ def plot(x,
         デフォルト（'-'）で線，それ以外で◯．他のシンボルは未対応
     axis : array (or tuple) of str
         x軸とy軸それぞれ 'lin' or 'log' で軸の線形か対数かを指定．デフォルトは線形．
+    show_script : bool
+        自動生成したスクリプトを表示する．デフォルトは False
+    
     """
 
     import pygmt
@@ -278,6 +360,8 @@ def plot(x,
 def xyz2grd(x, y, z, region=None, dx=None, dy=None):
 
     """
+    Convert xyz data to grd data by usin PyGMT.xyz2grd module
+
     Parameters
     ----------
     x, y: array-like
@@ -291,6 +375,7 @@ def xyz2grd(x, y, z, region=None, dx=None, dy=None):
     Return
     ------
     pygmt.grddata
+
     """
 
     if dx is None:
@@ -308,6 +393,28 @@ def xyz2grd(x, y, z, region=None, dx=None, dy=None):
 
 def surface(x, y, z, region=None, dx=None, dy=None, tension=0.0):
 
+    """
+    Convert xyz data to grd data by usin PyGMT.surface module
+
+    Parameters
+    ----------
+    x, y: array-like
+        independent variable arrays x[nx], y[ny]
+    z: array-like
+        two-dimensional array
+        z[nx,ny]
+    region: array-like or str
+        GMT's region setting (automatically detemined by default)
+    dx, dy: float
+        grid spacing. default is x[1]-x[0] and y[1]-y[0]
+    tension: float
+        tension parameter of PyGMT.surface
+        
+    Return
+    ------
+    pygmt.grddata
+    
+    """
     if dx is None:
         dx = x[1] - x[0]
     if dy is None:
@@ -331,6 +438,13 @@ def surface(x, y, z, region=None, dx=None, dy=None, tension=0.0):
 
 def wiggleplot(stream, timrange, xlabel='time [s]', ylabel='traces'): 
     
+    """
+    Wiggle plot of the seismogram. 
+    
+    Note
+    ----
+    the detailed documentation will be available later. 
+    """
     s = stream[0]
     b = np.floor(s.stats.sac.b*10000+0.5)/10000
     e = np.floor(s.stats.sac.e*10000+0.5)/10000    
@@ -352,8 +466,28 @@ def _magnitude_size(m):
 
 def eqplot(df, region=None, dep=None, xsize=12, zsize=5, magsize=_magnitude_size, cmap = 'roma', zdiv = 5): 
 
-    """ 地震活動の断面図プロットを作成する．
+    """ 
+    地震活動の断面図プロットを作成する．
     magsize には マグニチュードからサイズ（cm）への変換を行う関数を与える．
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        地震カタログデータフレーム．longitude, latitude, depth, magnitude の列を持つ必要がある．
+    region : array-like
+        [lon0, lon1, lat0, lat1] の順で与える．デフォルトはデータフレームの範囲．
+    dep : array-like
+        [z0, z1] の順で与える．デフォルトはデータフレームの範囲．
+    xsize : float
+        横幅（cm）
+    zsize : float
+        高さ（cm）
+    magsize : function
+        マグニチュードからサイズ（cm）への変換関数
+    cmap : str
+        カラーマップ名
+    zdiv : int
+        カラーマップの深さ方向の分割数
     """
     
     if region is None: 
@@ -456,10 +590,12 @@ def eqplot(df, region=None, dep=None, xsize=12, zsize=5, magsize=_magnitude_size
     return fig
 
 
-def record_section(stream, dist=None, tim=None, size = (20, 12), decimation=1, transparency=0, orientation='horizontal', 
-                  otim = None, filt = 'raw', fc = None, nord=2, twopass=True, 
-                  scale = 'auto', mag = 1.0, color = ("134/49/74", "85/80/39", "63/70/138", "111/47/127", "44/86/105"),
-                  plot_stcode=False, reduce = None, azimuth = [0, 360]):
+def record_section(stream, dist=None, tim=None, size = (20, 12), 
+                   decimation=1, transparency=0, orientation='horizontal', 
+                   otim = None, filt = 'raw', fc = None, nord=2, twopass=True, 
+                   scale = 'auto', mag = 1.0, 
+                   color = ("134/49/74", "85/80/39", "63/70/138", "111/47/127", "44/86/105"),
+                   plot_stcode=False, reduce = None, azimuth = [0, 360]):
 
     """ Plot record section of the seismogram: PyGMT version
     
@@ -779,10 +915,18 @@ def spectrogram(trace, nwin=512, wshift=100, nfft=None,
     cmap_cont: Bool
         Use continuous color palette. Default is True. 
     return_data: Bool
-        if this value is set to True, this funciton returns 
-            fig, time, frequency, PSDF
-        where time and frequency is horizontal and vertical axis array, PSDF is a 2D list of the spectrogram. 
-        By default, only fig is returned. 
+        if this value is set to True, this funciton returns (fig, time, frequency, PSDF)
+
+    Returns
+    -------
+    fig: PyGMT.Figure
+        PyGMT figure object.
+    time: array
+        time axis of the spectrogram
+    frequency: array
+        frequency axis of the spectrogram
+    PSDF: array
+
     """
     
     if type(trace) is obspy.core.stream.Stream:

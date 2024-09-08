@@ -5,7 +5,8 @@ import scipy.signal as ss
 
 def time2freq(u, dt, nfft=None, sign="positive"):
     
-    """Fourier transform of time series (real-valued) u(t) with sampling interval dt
+    """
+    Fourier transform of time series (real-valued) u(t) with sampling interval dt
 
     計算の定義は
     $$
@@ -22,7 +23,8 @@ def time2freq(u, dt, nfft=None, sign="positive"):
     nfft : integer (optional)
         size of fft. Power of 2 is highly recommended for efficient computation
         default: len(u)
-    sign : 'positive' or 'negative
+    sign : str
+        'positive' or 'negative
 
     Returns
     -------
@@ -47,9 +49,11 @@ def time2freq(u, dt, nfft=None, sign="positive"):
 
 def freq2time(c, dt, nfft=None, sign="negative"):
 
-    """Inverse of time2freq
+    """
+    Inverse of time2freq
         
-        計算の定義は
+    計算の定義は
+
     $$
         u(t) = sum_{i=0}^{N-1} u(f_i) exp[-j 2 pi f_i t] dt
     $$
@@ -63,7 +67,8 @@ def freq2time(c, dt, nfft=None, sign="negative"):
     nfft : integer (optional)
         size of fft. Power of 2 is highly recommended for efficient computation
         default: (len(u)-1)*2
-    sign : 'positive' or 'negative
+    sign : str
+        'positive' or 'negative
 
     Returns
     -------
@@ -333,21 +338,59 @@ def taper_cosine(d, r=5, nh=None):
 
 def rmean(u):
 
-    """remove mean from array u"""
+    """
+    remove mean from array u
+    
+    Parameters
+    ----------
+    u : array-like
+        input data
+    
+    Returns
+    -------
+    array-like
+        data with mean subtracted
+    """
 
     return u - np.mean(u)
 
 
 def rtrend(u):
 
-    """remove linear trend from array u"""
+    """
+    remove linear trend from array u
+    This function is equivalent to scipy.signal.detrend
+    
+    Parameters
+    ----------
+    u : array-like
+        input data
+    
+    Returns
+    -------
+    array-like
+        detrended data
+    """
 
     return ss.detrend(u)
 
 
 def rtrend2(y):
 
-    """remove linear trend from array y"""
+    """
+    Remove linear trend from array y
+    The trend is estimated by least square method.
+
+    Parameters
+    ----------
+    y : array-like
+        input data
+    
+    Returns
+    -------
+    array-like
+        detrended data
+    """
     
     n = len(y)
     x = np.arange(n)    
@@ -365,7 +408,8 @@ def rtrend2(y):
 
 def psdf_fft(u, dt, nfft=None, taper=None, alpha=0.2):
 
-    """Power spectral density function by means of FFT
+    """
+    Power spectral density function by means of FFT
 
     Parameters
     ----------
@@ -414,11 +458,11 @@ def psdf_fft(u, dt, nfft=None, taper=None, alpha=0.2):
 
 
 def envelope_hilbert(d):
-    """ヒルベルト変換による時系列dのエンベロープ
-
+    """
+    ヒルベルト変換による時系列dのエンベロープ
     dの解析信号の絶対値として定義される．
 
-    Arguments
+    Parameters
     ---------
     d : array-like
         input data
@@ -433,9 +477,10 @@ def envelope_hilbert(d):
 
 
 def envelope_rms(d, hw):
-    """半値幅 hw のRMS平均による時系列 d のエンベロープ
+    """
+    半値幅 hw のRMS平均による時系列 d のエンベロープ
 
-    Arguments
+    Parameters
     ---------
     d : array-like
         input data
@@ -452,7 +497,8 @@ def envelope_rms(d, hw):
 
 def rot_hcmp(data_x, data_y, cmpaz_x, cmpaz_y, rot_angle):
 
-    """水平動2成分データを rot_angle 方向に回転する．
+    """
+    水平動2成分データを rot_angle 方向に回転する．
 
     角度はすべて北を0として時計回りに測る．入力地震動の成分は
     - x: 北から cmpaz_x 方向
@@ -461,7 +507,6 @@ def rot_hcmp(data_x, data_y, cmpaz_x, cmpaz_y, rot_angle):
     地震計の設置方位が南北東西から回転していることがあること，さらに
     cmpaz_y = cmpaz + 90
     であるとは限らないためである．たとえば東西成分の+-を逆につないだらcmpaz=-90である．
-
     NE→RT変換には rot_angle を back_azimuth - 180° とする
 
     Parameters
@@ -493,14 +538,8 @@ def rot_hcmp(data_x, data_y, cmpaz_x, cmpaz_y, rot_angle):
 
 def seismometer_decon(dat, dt, f0=1.0, h0=0.7, f1=1/120, h1=1/np.sqrt(2)):
 
-    """Inverse filterにより地震計特性の逆畳み込みと，広帯域特性の畳み込みを同時に行う．
-
-    Reference
-    ---------
-    Maeda, T., Obara, K., Furumura, T., & Saito, T. (2011). 
-    Interference of long-period seismic wavefield observed by dense Hi-net array in Japan, 
-    Journal of Geophysical Research: Solid Earth, 116, B10303, doi:10.1029/2011JB008464. 
-    http://doi.org/10.1029/2011JB008464
+    """
+    Inverse filterにより地震計特性の逆畳み込みと，広帯域特性の畳み込みを同時に行う．
 
     Parameters
     ----------
@@ -515,7 +554,17 @@ def seismometer_decon(dat, dt, f0=1.0, h0=0.7, f1=1/120, h1=1/np.sqrt(2)):
     
     Returns
     -------
-    dat: 畳み込み後のデータ．元データと同じ長さ．
+    dat: array-like 
+        畳み込み後のデータ．元データと同じ長さ．
+
+    
+    Notes
+    -----
+    Maeda, T., Obara, K., Furumura, T., & Saito, T. (2011). 
+    Interference of long-period seismic wavefield observed by dense Hi-net array in Japan, 
+    Journal of Geophysical Research: Solid Earth, 116, B10303, doi:10.1029/2011JB008464. 
+    http://doi.org/10.1029/2011JB008464
+
     """
 
     tw0 = np.tan(np.pi * f0 * dt)
