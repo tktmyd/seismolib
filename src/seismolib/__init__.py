@@ -1,16 +1,17 @@
 
-from .utils   import *
-from .geo     import *
-from .gk      import *
-from .signal  import *
-from .times   import *
-from .vmodels import *
-from .plot    import *
-from .movie   import *
+from .utils      import *
+from .geo        import *
+from .gk         import *
+from .signal     import *
+from .times      import *
+from .vmodels    import *
+from .plots      import *
+from .movie      import *
+from .traveltime import *
 
 __all__ = []
 
-for module in utils, geo, gk, signal, times, vmodels, plot, movie:
+for module in utils, geo, gk, signal, times, vmodels, plots, movie, traveltime  :
     for func in dir(module):
         if callable(getattr(module, func)):
             if func[0:1] != '_':

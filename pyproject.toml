@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "seismolib"
-version = "24.0.1"
+version = "24.1.0"
 authors = [
     { name = "Takuto Maeda", email = "tktmyd@hirosaki-u.ac.jp" },
 ]
@@ -26,5 +26,5 @@ dependencies = [
 ]
 [project.urls]
 Homepage = "https://github.com/tktmyd/seismolib"
-Issues = "https://github.com/tktmyd/seismolib/issues"
+#Issues = "https://github.com/tktmyd/seismolib/issues"
 
