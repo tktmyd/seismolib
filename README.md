@@ -1,2 +1,3 @@
 # seismolib
-A small python codes to help data analysis in seismology
+
+Small Python codes to help with data analysis in seismology.
