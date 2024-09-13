@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "seismolib"
-version = "24.1.1"
+version = "24.1.2"
 authors = [
     { name = "Takuto Maeda", email = "tktmyd@hirosaki-u.ac.jp" },
 ]

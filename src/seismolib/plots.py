@@ -244,30 +244,9 @@ def plot(x,
 
     import pygmt
     import numpy as np
-    import inspect
 
     y = np.array(y)
     x = np.array(x)
-
-    # 引数となった変数名の取得
-    frame = inspect.currentframe()
-    stack = inspect.getouterframes(frame)
-    args = stack[1].code_context[0]
-    idx1 = args.find('(')
-    idx2 = args.rfind(')')
-    arglst = args[idx1+1:idx2].split(',')
-
-    xnm = arglst[0].strip() 
-    idx = 1
-    if arglst[idx].count('[') == 1 or arglst[idx].count('(') == 1:
-        ynm = arglst[idx].strip() 
-        for i in range(2, len(arglst)): 
-            ynm += ", " + arglst[i].strip() 
-            idx += 1
-            if arglst[i].count(']') == 1 or arglst[i].count(')') == 1:
-                break
-    else:
-        ynm = arglst[idx].strip() 
 
     ## projection
     proj = "X"
@@ -336,7 +315,7 @@ def plot(x,
         if len(np.array(y).shape) == 1:
             fig.plot(x=x, y=y, **optarg)
             if show_script:
-                print(f"    fig.plot(x={xnm}, y={ynm},")
+                print(f"    fig.plot(x, y=y,")
                 print(f"             {_opt2str(optarg)})")
         else:
             for i in range(np.array(y).shape[0]):
@@ -347,7 +326,7 @@ def plot(x,
 
                 fig.plot(x=x, y=y[i,:], **optarg)
                 if show_script:
-                    print(f"    fig.plot(x={xnm}, y={ynm}[{i}],")
+                    print(f"    fig.plot(x, y[{i},:],")
                     print(f"             {_opt2str(optarg)})")
 
     if show_script:
