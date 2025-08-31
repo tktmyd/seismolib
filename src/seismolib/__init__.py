@@ -6,12 +6,13 @@ from .signal     import *
 from .times      import *
 from .vmodels    import *
 from .plots      import *
-from .movie      import *
+from .display    import *
 from .traveltime import *
+from .meca       import *
 
 __all__ = []
 
-for module in utils, geo, gk, signal, times, vmodels, plots, movie, traveltime  :
+for module in utils, geo, gk, signal, times, vmodels, plots, movie, traveltime, meca:
     for func in dir(module):
         if callable(getattr(module, func)):
             if func[0:1] != '_':

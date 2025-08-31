@@ -1033,8 +1033,9 @@ def _plot_spectrogram(t, f, p, u, frange=None, trange=None,
     return fig
 
 
-def plot_mech(strike, dip, rake, azimuth=None, takeoff=None, polarization=None,
-              compressionfill='250/50/150@50', polarizationfill='red'):
+def plot_meca(strike, dip, rake, azimuth=None, takeoff=None, polarization=None,
+              compressionfill='250/50/150@50', polarizationfill='red',
+              grid=False):
 
     """
     Plot focal mechanism with azimuth, takeoff and polarization
@@ -1050,17 +1051,34 @@ def plot_mech(strike, dip, rake, azimuth=None, takeoff=None, polarization=None,
         Fill color for the compression quadrants
     polarizationfill: str
         Fill color for the observation points with compressional polarity
-    
+    grid: Bool
+        Plot grid on the focal mechanism plot
     """
 
     fig = pygmt.Figure()
 
-    fig.meca(spec={"strike":strike, "dip": dip, "rake": rake, "magnitude": 5},
+    if strike < 0: 
+        fig.meca(spec={"mrr":2.897, "mtt": 2.897, "mff": 2.897, 
+                       "mrf": 0, "mrt":0, "mtf":0, "exponent": 23},
+                scale='10c', 
+                longitude=0, latitude=0, 
+                projection ='X11c/11c', region=[-1.1, 1.1, -1.1, 1.1], 
+                compressionfill='white', 
+                pen = 'thin,black')
+        
+        if grid: 
+            fig = _plot_mech_grid(fig)
+                           
+    else:
+        fig.meca(spec={"strike":strike, "dip": dip, "rake": rake, "magnitude": 5},
                 scale='10c', 
                 longitude=0, latitude=0, 
                 projection ='X11c/11c', region=[-1.1, 1.1, -1.1, 1.1], 
                 compressionfill=compressionfill, 
                 outline='thin,black')
+        if grid: 
+            fig = _plot_mech_grid(fig)
+        
 
     if azimuth is None or takeoff is None or polarization is None: 
         return fig
@@ -1090,3 +1108,24 @@ def plot_mech(strike, dip, rake, azimuth=None, takeoff=None, polarization=None,
 
 
     return fig
+
+def _plot_mech_grid(fig):
+    
+    for theta in np.arange(10, 90, 10):
+        r = np.sqrt(2) * np.sin(np.deg2rad(theta)/2)
+        phi = np.linspace(0, 2*np.pi, 200)
+        xx = r*np.cos(phi)
+        yy = r*np.sin(phi)
+        fig.plot(projection ='X11c/11c', region=[-1.1, 1.1, -1.1, 1.1], 
+                x = xx, y = yy, pen='thin,100', transparency=70)
+
+    for phi in np.arange(0, 180, 30):
+        x1 = np.cos(np.deg2rad(phi))
+        y1 = np.sin(np.deg2rad(phi))
+        x2 = np.cos(np.deg2rad(phi+180))
+        y2 = np.sin(np.deg2rad(phi+180))
+        fig.plot(projection ='X11c/11c', region=[-1.1, 1.1, -1.1, 1.1], 
+                x = [x1, x2], y = [y1, y2], pen='thin,100', transparency=70)  
+        
+    return fig
+
