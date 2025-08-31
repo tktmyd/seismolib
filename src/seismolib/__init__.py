@@ -12,7 +12,7 @@ from .meca       import *
 
 __all__ = []
 
-for module in utils, geo, gk, signal, times, vmodels, plots, movie, traveltime, meca:
+for module in utils, geo, gk, signal, times, vmodels, plots, display, traveltime, meca:
     for func in dir(module):
         if callable(getattr(module, func)):
             if func[0:1] != '_':
