@@ -315,7 +315,7 @@ def plot(x,
         if len(np.array(y).shape) == 1:
             fig.plot(x=x, y=y, **optarg)
             if show_script:
-                print(f"    fig.plot(x, y=y,")
+                print(f"    fig.plot(x=x, y=y,")
                 print(f"             {_opt2str(optarg)})")
         else:
             for i in range(np.array(y).shape[0]):
@@ -326,7 +326,7 @@ def plot(x,
 
                 fig.plot(x=x, y=y[i,:], **optarg)
                 if show_script:
-                    print(f"    fig.plot(x, y[{i},:],")
+                    print(f"    fig.plot(x=x, y=y[{i},:],")
                     print(f"             {_opt2str(optarg)})")
 
     if show_script:
